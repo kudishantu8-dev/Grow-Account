@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>WAZA 1 Day Setup 50USD</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef0fa;--ink:#141a3d;--mute:#5b6392;--tile:#fff;--tile-ink:#141a3d;--done:#1f9d7a;--done-ink:#fff;--cur:#f2a900;--line:#cfd4ee;--panel:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1230;--ink:#eef0ff;--mute:#9aa3d6;--tile:#f4f5ff;--tile-ink:#10153a;--done:#2ec4a0;--done-ink:#06231b;--cur:#ffc233;--line:#262d5e;--panel:#161c47}}
+:root[data-theme="dark"]{--bg:#0d1230;--ink:#eef0ff;--mute:#9aa3d6;--tile:#f4f5ff;--tile-ink:#10153a;--done:#2ec4a0;--done-ink:#06231b;--cur:#ffc233;--line:#262d5e;--panel:#161c47}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.4}
+main{max-width:980px;margin:0 auto;padding:20px 14px 40px}
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.lang{display:flex;gap:4px;flex-shrink:0}
+.lang button{padding:8px 12px;min-height:40px;font-size:.85rem}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+h1{font-size:clamp(1.6rem,5vw,2.4rem);font-weight:800;margin:0 0 4px;letter-spacing:-.02em}
+.sub{color:var(--mute);margin:0 0 18px}
+.top{display:grid;grid-template-columns:1.3fr 1fr;gap:12px;margin-bottom:14px}
+.now{background:var(--panel);border:2px solid var(--cur);border-radius:20px 20px 10px 10px;padding:16px}
+.now small{color:var(--mute);display:block}
+.big{font-size:clamp(2.6rem,10vw,4rem);font-weight:800;line-height:1;margin:4px 0 2px}
+.btns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+button{font:inherit;font-weight:700;border:0;border-radius:12px;padding:12px 16px;cursor:pointer;min-height:44px}
+button:focus-visible,.t:focus-visible,input:focus-visible{outline:3px solid var(--cur);outline-offset:2px}
+.go{background:var(--done);color:var(--done-ink);flex:1}
+.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.stats{background:var(--panel);border-radius:10px 10px 20px 20px;padding:14px;display:grid;gap:8px;align-content:center}
+.stats div{display:flex;justify-content:space-between;gap:8px}
+.stats span{color:var(--mute)}
+.bar{height:10px;background:var(--line);border-radius:9px;overflow:hidden;margin:0 0 14px}
+.bar i{display:block;height:100%;background:var(--done);width:0;transition:width .3s}
+.cfg{display:flex;align-items:center;gap:8px;color:var(--mute);margin-bottom:14px;flex-wrap:wrap}
+.cfg input{width:80px;font:inherit;padding:8px;border-radius:8px;border:1.5px solid var(--line);background:var(--panel);color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(8,1fr);gap:8px}
+.t{position:relative;background:var(--tile);color:var(--tile-ink);border:0;border-radius:18px 18px 6px 6px;padding:10px 2px 8px;text-align:center;min-height:62px;font-weight:800}
+.t b{display:block;font-size:clamp(.8rem,2.4vw,1.15rem);letter-spacing:-.02em}
+.t em{display:block;font-style:normal;font-weight:500;font-size:.62rem;opacity:.65}
+.t.done{background:var(--done);color:var(--done-ink)}
+.t.done em::before{content:"✓ "}
+.t.cur{outline:3px solid var(--cur);outline-offset:1px}
+.warn{margin-top:22px;padding:14px;border-radius:12px;background:var(--panel);color:var(--mute);font-size:.9rem}
+@media(max-width:640px){.top{grid-template-columns:1fr}.grid{grid-template-columns:repeat(4,1fr)}}
+@media(prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<main>
+<div class="head">
+<h1>WAZA 1 DAY SETUP</h1>
+<div class="lang" role="group" aria-label="Bahasa / Language"><button class="ghost" data-lang="ms">BM</button><button class="ghost" data-lang="en">EN</button></div>
+</div>
+<p class="sub" data-i18n="sub"></p>
+
+<section class="top">
+  <div class="now">
+    <small data-i18n="nextLot"></small>
+    <div class="big" id="curLot">0.01</div>
+    <small id="curStep"></small>
+    <div class="btns">
+      <button class="go" id="tp" data-i18n="tpBtn"></button>
+      <button class="ghost" id="undo" data-i18n="undo"></button>
+    </div>
+  </div>
+  <div class="stats">
+    <div><span data-i18n="done"></span><strong id="sDone">0 / 78</strong></div>
+    <div><span data-i18n="lotsUsed"></span><strong id="sLots">0.00</strong></div>
+    <div><span data-i18n="profitTotal"></span><strong id="sProfit">$0.00</strong></div>
+    <div><span data-i18n="profitNext"></span><strong id="sNext">$0.00</strong></div>
+  </div>
+</section>
+
+<div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="78" id="pb"><i id="pf"></i></div>
+
+<div class="cfg">
+  <label for="pv" data-i18n="pipLabel"></label>
+  <input id="pv" type="number" min="0" step="0.1" value="10" inputmode="decimal">
+  <button class="ghost" id="reset" data-i18n="reset"></button>
+</div>
+
+<div class="grid" id="grid" role="list"></div>
+
+<p class="warn" data-i18n="warn"></p>
+</main>
+
+<script>
+const LOTS="0.03,0.04,0.05,0.06,0.07,0.08,0.08,0.08,0.08,0.09,0.09,0.09,0.09,0.09,0.10,0.10,0.10,0.10,0.10,0.20,0.20,0.20,0.30,0.30,0.40,0.50,0.60,0.70,0.80,0.80,0.80,0.90,0.90,0.90,0.90,0.90,0.90,0.90,1.00,1.00,1.00,1.00,1.00,2.00,2.00,2.00,3.00,3.00,4.00,5.00,6.00,7.00,8.00,8.00,8.00,9.00,9.00,9.00,9.00,9.00,10.00,10.00,10.00,10.00,10.00,20.00,20.00,20.00,30.00,30.00,40.00,50.00,60.00,70.00,80.00,80.00,80.00,90.00".split(",").map(Number);
+const I18N={
+ms:{sub:"Modal 50 USD · 78 step · TP wajib 40 pips · No stoploss",nextLot:"Lot seterusnya",tpBtn:"Kena TP, Tekan sini",undo:"Undur",done:"Siap",lotsUsed:"Jumlah lot dah guna",profitTotal:"Untung TP terkumpul",profitNext:"Untung TP step ini",pipLabel:"Nilai 1 pip untuk 1.00 lot ($)",reset:"Set semula",stepOf:"Step {a} daripada {b}",allDone:"Semua {b} step dah selesai",finished:"Siap",ariaStep:"Step {a}, lot {l}",ariaDone:", siap",warn:"Tracker ini cuma catat step yang dah siap. Ia tak sambung ke broker. Nilai pip berbeza ikut pair (contoh XAUUSD lain daripada EURUSD), jadi ubah nilai di atas ikut broker kau. Strategi tanpa stop loss dengan lot yang membesar boleh habiskan akaun dengan cepat, jadi pastikan kau faham risikonya."},
+en:{sub:"Capital 50 USD · 78 steps · TP required 40 pips · No stoploss",nextLot:"Next lot",tpBtn:"TP hit, tap here",undo:"Undo",done:"Completed",lotsUsed:"Total lots used",profitTotal:"Total TP profit",profitNext:"TP profit this step",pipLabel:"Value of 1 pip per 1.00 lot ($)",reset:"Reset",stepOf:"Step {a} of {b}",allDone:"All {b} steps completed",finished:"Done",ariaStep:"Step {a}, lot {l}",ariaDone:", completed",warn:"This tracker only records the steps you have completed. It does not connect to your broker. Pip value differs by pair (XAUUSD differs from EURUSD, for example), so adjust the value above to match your broker. A strategy with no stop loss and growing lot sizes can wipe out an account quickly, so make sure you understand the risk."}
+};
+let lang="ms";
+try{const l=localStorage.getItem("waza-lang");if(l==="ms"||l==="en")lang=l}catch(e){}
+const t=(k,v)=>{let x=I18N[lang][k];if(v)for(const p in v)x=x.replace("{"+p+"}",v[p]);return x};
+function applyLang(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll("[data-i18n]").forEach(el=>{el.textContent=t(el.dataset.i18n)});
+  document.querySelectorAll("[data-lang]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===lang));
+  render();
+}
+document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{
+  lang=b.dataset.lang;try{localStorage.setItem("waza-lang",lang)}catch(e){}applyLang();
+}));
+const N=LOTS.length, KEY="waza-tracker-50-v1";
+let done=new Array(N).fill(false), pip=10;
+
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&Array.isArray(s.done)&&s.done.length===N){done=s.done;pip=+s.pip||10}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({done,pip}))}catch(e){}}
+
+const $=id=>document.getElementById(id), money=v=>"$"+v.toFixed(2);
+const grid=$("grid");
+LOTS.forEach((l,i)=>{
+  const b=document.createElement("button");
+  b.className="t";b.setAttribute("role","listitem");
+  b.innerHTML="<b>"+l.toFixed(2)+"</b><em>40 pips</em>";
+  b.addEventListener("click",()=>{done[i]=!done[i];render();save()});
+  grid.appendChild(b);
+});
+
+function render(){
+  const cur=done.indexOf(false), n=done.filter(Boolean).length;
+  const tiles=grid.children;
+  for(let i=0;i<N;i++){
+    tiles[i].classList.toggle("done",done[i]);
+    tiles[i].classList.toggle("cur",i===cur);
+    tiles[i].setAttribute("aria-label",t("ariaStep",{a:i+1,l:LOTS[i].toFixed(2)})+(done[i]?t("ariaDone"):""));
+  }
+  const lots=LOTS.reduce((a,l,i)=>a+(done[i]?l:0),0);
+  $("sDone").textContent=n+" / "+N;
+  $("sLots").textContent=lots.toFixed(2);
+  $("sProfit").textContent=money(lots*40*pip);
+  $("pf").style.width=(n/N*100)+"%";
+  $("pb").setAttribute("aria-valuenow",n);
+  if(cur===-1){
+    $("curLot").textContent=t("finished");$("curStep").textContent=t("allDone",{b:N});
+    $("sNext").textContent="$0.00";$("tp").disabled=true;
+  }else{
+    $("curLot").textContent=LOTS[cur].toFixed(2);
+    $("curStep").textContent=t("stepOf",{a:cur+1,b:N});
+    $("sNext").textContent=money(LOTS[cur]*40*pip);$("tp").disabled=false;
+  }
+  $("undo").disabled=n===0;
+}
+
+$("tp").addEventListener("click",()=>{const c=done.indexOf(false);if(c>-1){done[c]=true;render();save()}});
+$("undo").addEventListener("click",()=>{const l=done.lastIndexOf(true);if(l>-1){done[l]=false;render();save()}});
+$("pv").value=pip;
+$("pv").addEventListener("input",e=>{const v=parseFloat(e.target.value);pip=isNaN(v)||v<0?0:v;render();save()});
+$("reset").addEventListener("click",()=>{done.fill(false);render();save()});
+applyLang();
+</script>
+</body>
+</html>
